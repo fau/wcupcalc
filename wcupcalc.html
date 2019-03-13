@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>jQuery UI Slider - Range slider</title>
+  <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="https://jqueryui.com/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <style>
+  .red .ui-slider-range { background: #ef2929; }
+  .red .ui-slider-handle { border-color: #ef2929; background: #ef2929;}
+  .blue .ui-slider-range { background: blue; }
+  .blue .ui-slider-handle { border-color: blue;background: blue; }
+  </style>
+  <script>
+  $( function() {
+      function fullpoints(range){
+            if (range===1) return 100
+            else if (range===2) return 80
+            else if (range===3) return 60
+            else if (range===4) return 50
+            else if (range===5) return 45
+            else if (range===6) return 40
+            else if (range===7) return 36
+            else if (range===8) return 32
+            else if (range===9) return 29
+            else if (range===10) return 26
+            else if (range===11) return 24
+            else if (range===12) return 22
+            else if (range===13) return 20
+            else if (range===14) return 18
+            else if (range===15) return 16
+            else if (range===16) return 15
+            else if (range===17) return 14
+            else if (range===18) return 13
+            else if (range===19) return 12
+            else if (range===20) return 11
+            else if (range===21) return 10
+            else if (range===22) return 9
+            else if (range===23) return 8
+            else if (range===24) return 7
+            else if (range===25) return 6
+            else if (range===26) return 5
+            else if (range===27) return 4
+            else if (range===28) return 3
+            else if (range===29) return 2
+            else if (range===30) return 1
+            else return 0;
+      }
+      function halfpoints(range){
+          if (range===1) return 50
+          else if (range===2) return 46
+          else if (range===3) return 43
+          else if (range===4) return 40
+          else if (range===5) return 37
+          else if (range===6) return 34
+          else if (range===7) return 32
+          else if (range===8) return 30
+          else if (range===9) return 28
+          else if (range===10) return 26
+          else if (range===11) return 24
+          else if (range===12) return 22
+          else if (range===13) return 20
+          else if (range===14) return 18
+          else if (range===15) return 16
+          else if (range===16) return 15
+          else if (range===17) return 14
+          else if (range===18) return 13
+          else if (range===19) return 12
+          else if (range===20) return 11
+          else if (range===21) return 10
+          else if (range===22) return 9
+          else if (range===23) return 8
+          else if (range===24) return 7
+          else if (range===25) return 6
+          else if (range===26) return 5
+          else if (range===27) return 4
+          else if (range===28) return 3
+          else if (range===29) return 2
+          else if (range===30) return 1
+          else return 0;
+      }
+     function calcresult(){
+         let g1min= parseInt($("#g01" ).val())
+                 +fullpoints(parseInt($( "#wc12_g1" ).slider( "values",1)))
+                 +fullpoints(parseInt($( "#wc16_g1" ).slider( "values",1)))
+                 +fullpoints(parseInt($( "#wc17_g1" ).slider( "values",1)))
+                 +halfpoints(parseInt($( "#wc22_g1" ).slider( "values",1)))
+                 +halfpoints(parseInt($( "#wc23_g1" ).slider( "values",1)))
+                 +halfpoints(parseInt($( "#wc24_g1" ).slider( "values",1)));
+         let g1max= parseInt($("#g01" ).val())
+                 +fullpoints(parseInt($( "#wc12_g1" ).slider( "values",0)))
+                 +fullpoints(parseInt($( "#wc16_g1" ).slider( "values",0)))
+                 +fullpoints(parseInt($( "#wc17_g1" ).slider( "values",0)))
+                 +halfpoints(parseInt($( "#wc22_g1" ).slider( "values",0)))
+                 +halfpoints(parseInt($( "#wc23_g1" ).slider( "values",0)))
+                 +halfpoints(parseInt($( "#wc24_g1" ).slider( "values",0)));
+
+         $( "#g1" ).val(g1min.toString()+'-'+g1max.toString());
+         $( "#wcr_g1" ).slider("option","values",[g1min,g1max]);
+
+         let g2min= parseInt($("#g02" ).val())
+                 +fullpoints(parseInt($( "#wc12_g2" ).slider( "values",1)))
+                 +fullpoints(parseInt($( "#wc16_g2" ).slider( "values",1)))
+                 +fullpoints(parseInt($( "#wc17_g2" ).slider( "values",1)))
+                 +halfpoints(parseInt($( "#wc22_g2" ).slider( "values",1)))
+                 +halfpoints(parseInt($( "#wc23_g2" ).slider( "values",1)))
+                 +halfpoints(parseInt($( "#wc24_g2" ).slider( "values",1)));
+         let g2max= parseInt($("#g02" ).val())
+                 +fullpoints(parseInt($( "#wc12_g2" ).slider( "values",0)))
+                 +fullpoints(parseInt($( "#wc16_g2" ).slider( "values",0)))
+                 +fullpoints(parseInt($( "#wc17_g2" ).slider( "values",0)))
+                 +halfpoints(parseInt($( "#wc22_g2" ).slider( "values",0)))
+                 +halfpoints(parseInt($( "#wc23_g2" ).slider( "values",0)))
+                 +halfpoints(parseInt($( "#wc24_g2" ).slider( "values",0)));
+
+         $( "#g2" ).val(g2min.toString()+'-'+g2max.toString());
+         $( "#wcr_g2" ).slider("option","values",[g2min,g2max]);
+
+         $("span.red,span.blue").text(function(){
+             let slider=$(this).next("div");
+             let min = slider.slider("values",0);
+             let max = slider.slider("values",1);
+             let pc =  slider.slider("option","pc");
+             return min.toString()+"("+pc(min).toString()+")-"+max.toString()+"("+pc(max).toString()+")";
+         });
+     }
+
+    $( "#wc12_g1" ).slider({
+      range: true,
+      min: 1,
+      max: 31,
+      values: [ 13, 13 ],
+        pc: fullpoints,
+        //disabled: true,
+      slide: calcresult,
+        change: calcresult
+    });
+    $( "#wc12_g2" ).slider({
+      range: true,
+      min: 1,
+      max: 31,
+      values: [ 1, 1 ],
+        pc: fullpoints,
+        slide: calcresult,
+        change: calcresult
+    });
+
+      $( "#wc16_g1" ).slider({
+          range: true,
+          min: 1,
+          max: 31,
+          values: [ 1, 31 ],
+          pc: fullpoints,
+          slide: calcresult,
+          change: calcresult
+      });
+      $( "#wc16_g2" ).slider({
+          range: true,
+          min: 1,
+          max: 31,
+          values: [ 1, 31 ],
+          pc: fullpoints,
+          slide: calcresult,
+          change: calcresult
+      });
+
+      $( "#wc17_g1" ).slider({
+          range: true,
+          min: 1,
+          max: 31,
+          values: [ 1, 31 ],
+          pc: fullpoints,
+          slide: calcresult,
+          change: calcresult
+      });
+      $( "#wc17_g2" ).slider({
+          range: true,
+          min: 1,
+          max: 31,
+          values: [ 1, 31 ],
+          pc: fullpoints,
+          slide: calcresult,
+          change: calcresult
+      });
+
+      $( "#wc22_g1" ).slider({
+          range: true,
+          min: 1,
+          max: 31,
+          values: [ 1, 31 ],
+          pc: halfpoints,
+          slide: calcresult,
+          change: calcresult
+      });
+      $( "#wc22_g2" ).slider({
+          range: true,
+          min: 1,
+          max: 31,
+          values: [ 1, 31 ],
+          pc: halfpoints,
+          slide: calcresult,
+          change: calcresult
+      });
+
+      $( "#wc23_g1" ).slider({
+          range: true,
+          min: 1,
+          max: 31,
+          values: [ 1, 31 ],
+          pc: halfpoints,
+          slide: calcresult,
+          change: calcresult
+      });
+      $( "#wc23_g2" ).slider({
+          range: true,
+          min: 1,
+          max: 31,
+          values: [ 1, 31 ],
+          pc: halfpoints,
+          slide: calcresult,
+          change: calcresult
+      });
+
+      $( "#wc24_g1" ).slider({
+          range: true,
+          min: 1,
+          max: 31,
+          values: [ 1, 31 ],
+          pc: halfpoints,
+          slide: calcresult,
+          change: calcresult
+      });
+      $( "#wc24_g2" ).slider({
+          range: true,
+          min: 1,
+          max: 31,
+          values: [ 1, 31 ],
+          pc: halfpoints,
+          slide: calcresult,
+          change: calcresult
+      });
+
+      $( "#wcr_g1" ).slider({
+          range: true,
+          min: 1000,
+          max: 2000,
+          values: [ 1000, 2500 ],
+          disabled: true
+      });
+      $( "#wcr_g2" ).slider({
+          range: true,
+          min: 1000,
+          max: 2000,
+          values: [ 1000, 2500 ],
+          disabled: true
+      });
+
+      //$("div").slider("option",{orientation:"vertical"});
+      calcresult();
+  });
+  </script>
+</head>
+<body  bgcolor="#87cefa">
+<div style="width: 600px; padding: 20px">
+<p>
+<h1>Cross-country ski worldcup calculator</h2>
+<h2>Начальное положение</h2>
+<label class="red" for="g01">Лыжник 1:</label>
+<input class="red" type="text" id="g01" style="border:0; color:#f6931f; font-weight:bold;" value="1230">
+<label class="blue" for="g02">Лыжник 2:</label>
+<input class="blue" type="text" id="g02" style="border:0; color:#f6931f; font-weight:bold;" value="1181">
+</p>
+<h3>Этап: 12 марта Драммен, спринт классикой</h3>
+<span class="red"></span>
+<div class="red" id="wc12_g1"></div>
+<br/>
+    <span class="blue"></span>
+<div class="blue" id="wc12_g2"></div>
+<h3>Этап: 16 марта Фалун, разделка коньком</h3>
+    <span class="red"></span>
+<div class="red" id="wc16_g1"></div>
+<br/>
+    <span class="blue"></span>
+<div class="blue" id="wc16_g2"></div>
+<h3>Этап: 17 марта Фалун, сприинт коньком</h3>
+    <span class="red"></span>
+<div class="red" id="wc17_g1"></div>
+<br/>
+    <span class="blue"></span>
+<div class="blue" id="wc17_g2"></div>
+<h3>Этап: пятница 22-е, спринт коньком</h3>
+    <span class="red"></span>
+<div class="red" id="wc22_g1"></div>
+<br/>
+    <span class="blue"></span>
+<div class="blue" id="wc22_g2"></div>
+<h3>Этап: суббота 23-е, масс-старт классикой</h3>
+    <span class="red"></span>
+<div class="red" id="wc23_g1"></div>
+<br/>
+    <span class="blue"></span>
+<div class="blue" id="wc23_g2"></div>
+<h3>Этап: воскресенье 24-е, преследование коньком</h3>
+    <span class="red"></span>
+<div class="red" id="wc24_g1"></div>
+<br/>
+    <span class="blue"></span>
+<div class="blue" id="wc24_g2"></div>
+<p>
+<h2>Итоговый Результат</h2>
+<label class="red" for="g1">Лыжник 1:</label>
+<input class="red" type="text" id="g1" readonly style="border:0; color:#f6931f; font-weight:bold;">
+<div class="red" id="wcr_g1"></div>
+<br/>
+<label class="blue"  for="g2">Лыжник 2:</label>
+<input class="blue" type="text" id="g2" readonly style="border:0; color:#f6931f; font-weight:bold;">
+<div class="blue" id="wcr_g2"></div>
+</p>
+
+</div>
+</body>
+</html>
