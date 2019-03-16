@@ -114,14 +114,19 @@
               if (parseInt(this.innerText)>delta){
                   $(this).removeClass('red').addClass('blue');
               }
-              else {
+              else if (parseInt(this.innerText)<delta){
                   $(this).removeClass('blue').addClass('red');
+              }
+              else {
+                  $(this).removeClass('blue').removeClass('red');
               }
           });
       }
 
       function theColorizeWinner(){
-          colorizeWinner(parseInt($("#skier1").val())-parseInt($("#skier2").val()));
+          var delta = parseInt($("#skier1").val())-parseInt($("#skier2").val());
+          colorizeWinner(delta);
+          $("#delta").val(delta);
       };
       $('#skier1').keyup(theColorizeWinner);
       $('#skier2').keyup(theColorizeWinner);
@@ -144,10 +149,12 @@
 
 <h1>Cross-country worldcup delta points table</h1>
 <p>
-<label class="red" for="g01">Skier 1:</label>
+<label class="red" for="skier1">Skier 1:</label>
 <input class="red" type="text" id="skier1" value="1327">
-<label class="blue" for="g02">Skier 2:</label>
+<label class="blue" for="skier2">Skier 2:</label>
 <input class="blue" type="text" id="skier2" value="1374">
+    <label class="" for="delta"> Delta:</label>
+    <input class="" type="text" id="delta"  readonly value="">
 </p>
 <button id="fullbutton">Full points table</button>
 <button id="halfbutton">Half points table</button>
