@@ -1,0 +1,160 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Cross-country worldcup delta points table</title>
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <style>
+      .red {
+          background: #ff8e82;
+      }
+      .blue {
+          background: #55acee;
+      }
+  </style>
+  <script>
+  $( function() {
+      function fullpoints(range) {
+          if (range === 1) return 100
+          else if (range === 2) return 80
+          else if (range === 3) return 60
+          else if (range === 4) return 50
+          else if (range === 5) return 45
+          else if (range === 6) return 40
+          else if (range === 7) return 36
+          else if (range === 8) return 32
+          else if (range === 9) return 29
+          else if (range === 10) return 26
+          else if (range === 11) return 24
+          else if (range === 12) return 22
+          else if (range === 13) return 20
+          else if (range === 14) return 18
+          else if (range === 15) return 16
+          else if (range === 16) return 15
+          else if (range === 17) return 14
+          else if (range === 18) return 13
+          else if (range === 19) return 12
+          else if (range === 20) return 11
+          else if (range === 21) return 10
+          else if (range === 22) return 9
+          else if (range === 23) return 8
+          else if (range === 24) return 7
+          else if (range === 25) return 6
+          else if (range === 26) return 5
+          else if (range === 27) return 4
+          else if (range === 28) return 3
+          else if (range === 29) return 2
+          else if (range === 30) return 1
+          else return 0;
+      }
+
+      function halfpoints(range) {
+          if (range === 1) return 50
+          else if (range === 2) return 46
+          else if (range === 3) return 43
+          else if (range === 4) return 40
+          else if (range === 5) return 37
+          else if (range === 6) return 34
+          else if (range === 7) return 32
+          else if (range === 8) return 30
+          else if (range === 9) return 28
+          else if (range === 10) return 26
+          else if (range === 11) return 24
+          else if (range === 12) return 22
+          else if (range === 13) return 20
+          else if (range === 14) return 18
+          else if (range === 15) return 16
+          else if (range === 16) return 15
+          else if (range === 17) return 14
+          else if (range === 18) return 13
+          else if (range === 19) return 12
+          else if (range === 20) return 11
+          else if (range === 21) return 10
+          else if (range === 22) return 9
+          else if (range === 23) return 8
+          else if (range === 24) return 7
+          else if (range === 25) return 6
+          else if (range === 26) return 5
+          else if (range === 27) return 4
+          else if (range === 28) return 3
+          else if (range === 29) return 2
+          else if (range === 30) return 1
+          else return 0;
+      }
+
+
+      function makePointsTable(div, fpoints){
+          var html="<table border=\"1\" cellpadding =\"2\" cellspacing =\"0\">";
+
+          html += "<tr><td>Rank(Points)</td>";
+          for (i=1;i<=31;i++){
+              html += "<td class=\"red\">"+ i.toString()+"("+fpoints(i).toString()+")</td>";
+          }
+          html+="</tr>";
+
+          for (i=1;i<=31;i++){
+              html += "<tr>";
+              html += "<td  class=\"blue\">"+ i.toString()+"("+fpoints(i).toString()+")</td>";
+              for (k=1; k<=31; k++ ){
+                  html += "<td class=\"delta\">"+ (fpoints(i)-fpoints(k)).toString()+"</td>";
+              }
+              html+="</tr>";
+          }
+          html+="</table>";
+
+          div.append(html);
+      }
+
+      makePointsTable($("#fullpoints"),fullpoints);
+      makePointsTable($("#halfpoints"),halfpoints);
+
+      function colorizeWinner(delta){
+          $('td.delta').each(function(){
+              if (parseInt(this.innerText)>delta){
+                  $(this).removeClass('red').addClass('blue');
+              }
+              else {
+                  $(this).removeClass('blue').addClass('red');
+              }
+          });
+      }
+
+      function theColorizeWinner(){
+          colorizeWinner(parseInt($("#skier1").val())-parseInt($("#skier2").val()));
+      };
+      $('#skier1').keyup(theColorizeWinner);
+      $('#skier2').keyup(theColorizeWinner);
+
+      theColorizeWinner();
+      $("#halfpoints").hide();
+      $("#halfbutton").click(function(){
+          $("#fullpoints").hide();
+          $("#halfpoints").show();
+      });
+      $("#fullbutton").click(function(){
+          $("#fullpoints").show();
+          $("#halfpoints").hide();
+      });
+  });
+
+  </script>
+</head>
+<body style=" padding: 20px" >
+
+<h1>Cross-country worldcup delta points table</h1>
+<p>
+<label class="red" for="g01">Skier 1:</label>
+<input class="red" type="text" id="skier1" value="1327">
+<label class="blue" for="g02">Skier 2:</label>
+<input class="blue" type="text" id="skier2" value="1374">
+</p>
+<button id="fullbutton">Full points table</button>
+<button id="halfbutton">Half points table</button>
+<br/>
+<div id="fullpoints"></div>
+
+<div id="halfpoints"></div>
+
+</body>
+</html>
