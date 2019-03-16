@@ -83,31 +83,61 @@
           else return 0;
       }
 
+      function biPoints(range) {
+          if (range === 1) return 60
+          else if (range === 2) return 54
+          else if (range === 3) return 48
+          else if (range === 4) return 43
+          else if (range === 5) return 40
+          else if (range === 6) return 38
+          else if (range === 7) return 36
+          else if (range === 8) return 34
+          else if (range === 9) return 32
+          else if (range === 10) return 31
+          else if (range <=40) return 31-(range-10)
+          else return 0;
+      }
 
-      function makePointsTable(div, fpoints){
+      function biMassStartPoints(range) {
+          if (range === 1) return 60
+          else if (range === 2) return 54
+          else if (range === 3) return 48
+          else if (range === 4) return 43
+          else if (range === 5) return 40
+          else if (range === 6) return 38
+          else if (range === 7) return 36
+          else if (range === 8) return 34
+          else if (range === 9) return 32
+          else if (range === 10) return 31
+          else if (range <=21) return 31-(range-10)
+          else if (range <=30) return 20-(range-21)*2
+          else return 0;
+      }
+
+      function makePointsTable(div, fpoints,limit){
           var html="<table border=\"1\" cellpadding =\"2\" cellspacing =\"0\">";
 
-          html += "<tr><td>Rank(Points)</td>";
-          for (i=1;i<=31;i++){
-              html += "<td class=\"red\">"+ i.toString()+"("+fpoints(i).toString()+")</td>";
+          var first= "<td>Rank(Points)</td>";
+          var top= "<tr>"+first;
+          for (i=1;i<=limit;i++){
+              top += "<td class=\"red\">"+ i.toString()+"("+fpoints(i).toString()+")</td>";
           }
-          html+="</tr>";
+          top+=first+"</tr>";
+          html+= top;
 
-          for (i=1;i<=31;i++){
+          for (i=1;i<=limit;i++){
               html += "<tr>";
-              html += "<td  class=\"blue\">"+ i.toString()+"("+fpoints(i).toString()+")</td>";
-              for (k=1; k<=31; k++ ){
+              first = "<td  class=\"blue\">"+ i.toString()+"("+fpoints(i).toString()+")</td>";
+              html += first;
+              for (k=1; k<=limit; k++ ){
                   html += "<td class=\"delta\">"+ (fpoints(i)-fpoints(k)).toString()+"</td>";
               }
-              html+="</tr>";
+              html+= first + "</tr>";
           }
-          html+="</table>";
+          html+=top+"</table>";
 
           div.append(html);
       }
-
-      makePointsTable($("#fullpoints"),fullpoints);
-      makePointsTable($("#halfpoints"),halfpoints);
 
       function colorizeWinner(delta){
           $('td.delta').each(function(){
@@ -128,26 +158,78 @@
           colorizeWinner(delta);
           $("#delta").val(delta);
       };
+
+
+      var url = new URL(window.location.href);
+      var s = url.searchParams.get("skier1");
+      if (s) {
+          $("#skier1").val(s);
+      }
+      s = url.searchParams.get("skier2");
+      if (s) {
+          $("#skier2").val(s);
+      }
+
+
+      makePointsTable($("#fullpoints"), fullpoints, 31);
+      makePointsTable($("#halfpoints"), halfpoints, 31);
+      makePointsTable($("#bipoints"), biPoints, 41);
+      makePointsTable($("#bimasspoints"), biMassStartPoints, 31);
+
       $('#skier1').keyup(theColorizeWinner);
       $('#skier2').keyup(theColorizeWinner);
 
       theColorizeWinner();
       $("#halfpoints").hide();
+      $("#bipoints").hide();
+      $("#bimasspoints").hide();
+
       $("#halfbutton").click(function(){
           $("#fullpoints").hide();
+          $("#bimasspoints").hide();
+          $("#bipoints").hide();
           $("#halfpoints").show();
       });
       $("#fullbutton").click(function(){
-          $("#fullpoints").show();
           $("#halfpoints").hide();
+          $("#bimasspoints").hide();
+          $("#bipoints").hide();
+          $("#fullpoints").show();
       });
+      $("#bibutton").click(function(){
+          $("#halfpoints").hide();
+          $("#bimasspoints").hide();
+          $("#bipoints").show();
+          $("#fullpoints").hide();
+      });
+      $("#bimassbutton").click(function(){
+          $("#halfpoints").hide();
+          $("#bimasspoints").show();
+          $("#bipoints").hide();
+          $("#fullpoints").hide();
+      });
+
+      s = url.searchParams.get("ptype");
+      if (s==="wcfull") {
+          $("#fullbutton").trigger("click");
+      }
+      else if (s==="wchalf") {
+          $("#halfbutton").trigger("click");
+      }
+      else if (s==="ibu") {
+          $("#bibutton").trigger("click");
+      }
+      else if (s==="ibumass") {
+          $("#biassbutton").trigger("click");
+      }
+
   });
 
   </script>
 </head>
 <body style=" padding: 20px" >
 
-<h1>Cross-country worldcup delta points table</h1>
+<h1>Worldcup delta points table</h1>
 <p>
 <label class="red" for="skier1">Skier 1:</label>
 <input class="red" type="text" id="skier1" value="1327">
@@ -156,12 +238,15 @@
     <label class="" for="delta"> Delta:</label>
     <input class="" type="text" id="delta"  readonly value="">
 </p>
-<button id="fullbutton">Full points table</button>
-<button id="halfbutton">Half points table</button>
+<button id="fullbutton">XC WC Full points table</button>
+<button id="halfbutton">XC WC Half points table</button>
+<button id="bibutton">IBU WC points table</button>
+<button id="bimassbutton">IBU WC Mass Start points table</button>
 <br/>
 <div id="fullpoints"></div>
-
 <div id="halfpoints"></div>
+<div id="bipoints"></div>
+<div id="bimasspoints"></div>
 
 </body>
 </html>
